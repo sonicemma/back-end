@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -17,10 +17,13 @@
   },
   "homepage": "https://github.com/Build-Week-Spotify-Song-Suggester2/back-end#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "knex": "^0.21.0",
     "morgan": "^1.10.0",
+    "nodemon": "^2.0.3",
     "sqlite3": "^4.2.0"
   }
 }
