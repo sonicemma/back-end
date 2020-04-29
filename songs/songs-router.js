@@ -1,0 +1,87 @@
+const express = require('express');
+const Songs = require('./songs-model');
+
+const router = express.Router();
+
+router.get('/', (req, res) => {
+    Songs.findSong()
+    .then(songs => {
+        res.json(songs);
+    })
+    .catch(err => {
+        console.log(err.message, err);
+        res.status(500).json({message: 'Failed to find songs'});
+    })
+})
+
+router.get('/savedSongs', (req, res) => {
+    Songs.getSong()
+    .then(songs => {
+        res.json(songs);
+    })
+    .catch(err => {
+        console.log(err.message, err);
+        res.status(500).json({message: 'error'});
+    })
+})
+
+router.get('/:id'), (req, res) => {
+    const {id} = req.params;
+
+    Songs.findSongById(id)
+    .then(song => {
+        if (song) {
+            res.json(song);
+        } else {
+            res.status(404).json({message: 'Invalid ID, could not find song'})
+        }
+    })
+    .catch(err => {
+        console.log(err.message, err);
+        res.status(500).json({message: 'Failed to find song'})
+    })
+}
+
+router.post('/faves', (req, res) => {
+    const songSave = req.body;
+    Songs.saveSong(songSave)
+        .then(song => {
+            return res.status(200).json(song);
+        })
+        .catch(err => {
+            console.log(err.message, err);
+            res.status(500).json({ message: 'Unable to save song', error: err })
+        })
+});
+
+router.post('/', (req, res) => {
+    const songData = req.body;
+    Songs.add(songData)
+    .then(song => {
+        res.status(201).json(song)
+    })
+    .catch(err => {
+        console.log(err.message, err);
+        res.status(500).json({message: 'Failed'})
+    })
+})
+
+router.delete('/:id', (req, res) => {
+    const {id} = req.params;
+
+    Songs.removeSong(id)
+    .then(deleted => {
+        if (deleted) {
+            res.json({removed: deleted});
+        } else {
+            res.status(404).json({meesage: 'Could not find song with that ID'})
+        }
+    })
+    .catch(err => {
+        console.log(err, err.message);
+        res.status(500).json({message: 'failed to delete song'})
+    })
+})
+
+
+module.exports = router;
