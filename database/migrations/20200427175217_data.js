@@ -9,15 +9,19 @@ exports.up = function(knex) {
 
   .createTable('songs', tbl => {
       tbl.increments();
-      tbl.string('song_name').notNullable();
-      tbl.string('song_artist').notNullable();
-      tbl.string('song_mood').notNullable().unique();
-      tbl.string('song_id').notNullable().unique();
+      tbl.string('song_info').notNullable();
+      tbl.string('song_id').notNullable();
+  })
+
+  .createTable('saveSong', tbl => {
+      tbl.increments();
+      tbl.string('song_id').notNullable().references('id').inTable('song').onDelete('CASCADE').onUpdate('CASCADE');
   })
 };
 
 exports.down = function(knex) {
   return knex.schema
     .dropTableIfExists('users')
-    .dropTableIfExists('songs');
+    .dropTableIfExists('songs')
+    .dropTableIfExists('saveSong');
 };
