@@ -9,12 +9,10 @@ exports.up = function(knex) {
     .createTable('songs', tbl => {
         tbl.increments();
         tbl.string('song_info').notNullable();
-        tbl.string('song_id').notNullable();
     })
   
     .createTable('saveSong', tbl => {
         tbl.increments();
-        tbl.string('song_id').notNullable().references('song_id').inTable('song').onDelete('CASCADE').onUpdate('CASCADE');
         tbl.string('song_info').notNullable().references('song_info').inTable('song').onDelete('CASCADE').onUpdate('CASCADE');
     })
   };
