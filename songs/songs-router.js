@@ -25,24 +25,24 @@ router.get('/savedSongs', (req, res) => {
     })
 })
 
-router.get('/:id'), (req, res) => {
+router.get('/:id', (req, res) => {
     const {id} = req.params;
 
     Songs.findSongById(id)
-    .then(song => {
-        if (song) {
-            res.json(song);
-        } else {
-            res.status(404).json({message: 'Invalid ID, could not find song'})
-        }
-    })
-    .catch(err => {
-        console.log(err.message, err);
-        res.status(500).json({message: 'Failed to find song'})
-    })
-}
+        .then(songs => {
+            if (songs) {
+                res.status(201).json(songs)
+            } else {
+                res.status(404).json({message: 'No song found'})
+            }
+        })
+        .catch(err => {
+            console.log(err.message)
+        })
+})
 
-router.post('/faves', (req, res) => {
+
+router.post('/save', (req, res) => {
     const songSave = req.body;
     Songs.saveSong(songSave)
         .then(song => {
@@ -65,6 +65,18 @@ router.post('/', (req, res) => {
         res.status(500).json({message: 'Failed'})
     })
 })
+
+router.put('/:id', (req, res) => {
+    Songs.update(req.params.id, req.body)
+    .then(songs => {
+        res.status(200).json(songs)
+    })
+    .catch(err => {
+        console.log(err, err.message)
+        res.status(500).json({message: 'Error with updating song'})
+    })
+})
+
 
 router.delete('/:id', (req, res) => {
     const {id} = req.params;

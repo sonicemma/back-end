@@ -7,6 +7,7 @@ module.exports = {
     findSong,
     findSongById,
     getSong,
+    update,
     add
 };
 
@@ -14,12 +15,16 @@ function findSong() {
     return db('songs');
 }
 
+function update(id, changes) {
+    return db('songs').where('id', id).update(changes).then((count) => (count > 0 ? get(id) : null));
+  }
+
 function getSong() {
     return db('saveSong');
 }
 
 function findSongById(id) {
-    return db('songs').where({id}).first();
+    return db('songs').where({id});
 }
 
 function saveSong(song) {
