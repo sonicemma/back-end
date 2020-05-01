@@ -16,7 +16,7 @@ function findSong() {
 }
 
 function update(id, changes) {
-    return db('songs').where('id', id).update(changes).then((count) => (count > 0 ? get(id) : null));
+    return db('songs').where('id', id).update(changes);
   }
 
 function getSong() {
