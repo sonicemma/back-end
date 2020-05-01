@@ -73,7 +73,7 @@ router.put('/:id', (req, res) => {
     })
     .catch(err => {
         console.log(err, err.message)
-        res.status(500).json({message: 'Error with updating song'})
+        res.status(500).json({message: 'Error with updating song', error: err.message, err})
     })
 })
 
